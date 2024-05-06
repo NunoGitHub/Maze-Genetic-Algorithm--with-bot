@@ -1,0 +1,56 @@
+# Unity specific
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Visual Studio / MonoDevelop / Rider
+*.booproj
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.unityproj
+*.dll
+*.pdb
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Android
+*.apk
+*.aab
+*.obb
+
+# iOS
+*.ipa
+*.xcodeproj
+*.xcworkspace
+
+# Others
+*.asset
