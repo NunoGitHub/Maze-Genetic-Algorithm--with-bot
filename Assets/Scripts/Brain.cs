@@ -7,7 +7,7 @@ using UnityStandardAssets.Characters.ThirdPerson;
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class Brain : MonoBehaviour
 {
-    public int DNALenght = 3;
+    public int DNALenght = 4;
     public float timeAlive = 0;
     public int timesJump =0;
 
@@ -29,6 +29,7 @@ public class Brain : MonoBehaviour
     float rotationSpeed = 5;
     float speed = 10;
 
+    public float pointsCatch =0;
     public GameObject eyes;
 
 
@@ -67,6 +68,7 @@ public class Brain : MonoBehaviour
     
     float distanceHit =0;
     bool seeWall=false;
+    bool seeEnemy=false;
     private void FixedUpdate()
     {
 
@@ -83,7 +85,9 @@ public class Brain : MonoBehaviour
         
         seeGround = false;
         seeWall =false;
+        seeEnemy =false;
         distanceHit=0;
+        pointsCatch=0;
         RaycastHit hit;
 
         if (Physics.Raycast(eyes.transform.position, eyes.transform.forward * 10, out hit))
@@ -100,6 +104,12 @@ public class Brain : MonoBehaviour
             if (hit.collider.gameObject.tag == "Wall")
             {
                 seeWall = true;
+            }
+
+            if (hit.collider.gameObject.tag == "catch")
+            {
+                seeEnemy = true;
+                pointsCatch ++;
             }
         
         }
@@ -124,12 +134,12 @@ public class Brain : MonoBehaviour
             else if (dna.GetGene(0) == 1)
             {
                 turn = -1; // turn left
-                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90, 0);
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 10, 0);
             }
             else if (dna.GetGene(0) == 2)
             {
                 turn = 1; //turn right
-                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 10, 0);
             }
             else if (dna.GetGene(0) == 3)
             {
@@ -151,12 +161,12 @@ public class Brain : MonoBehaviour
             else if (dna.GetGene(1) == 1)
             {
                 turn = -1; // turn left
-                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90, 0);
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 10, 0);
             }
             else if (dna.GetGene(1) == 2)
             {
                 turn = 1; // turn right
-                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 10, 0);
             }
             else if (dna.GetGene(1) == 3)
             {
@@ -178,12 +188,39 @@ public class Brain : MonoBehaviour
             else if (dna.GetGene(1) == 1)
             {
                 turn = -1; // turn left
-                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90, 0);
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 10, 0);
             }
             else if (dna.GetGene(1) == 2)
             {
                 turn = 1; // turn right
-                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 10, 0);
+            }
+            else if (dna.GetGene(1) == 3)
+            {
+                m_jump = true; // jump
+                  timesJump++;
+            }
+            else if (dna.GetGene(1) == 4)
+            {
+                crouch = true; // crouch
+            }
+        }
+        else if(seeEnemy)
+        {
+             if (dna.GetGene(1) == 0)
+            {
+                move = 1; // move foward
+                timeWalking++;
+            }
+            else if (dna.GetGene(1) == 1)
+            {
+                turn = -1; // turn left
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 10, 0);
+            }
+            else if (dna.GetGene(1) == 2)
+            {
+                turn = 1; // turn right
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 10, 0);
             }
             else if (dna.GetGene(1) == 3)
             {

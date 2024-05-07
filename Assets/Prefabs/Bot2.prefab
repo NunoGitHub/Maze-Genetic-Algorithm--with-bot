@@ -1685,10 +1685,9 @@ GameObject:
   - component: {fileID: 54034878477045366}
   - component: {fileID: 136732107044549898}
   - component: {fileID: 114074067701618710}
-  - component: {fileID: -3917092192680640040}
   m_Layer: 8
-  m_Name: Bot
-  m_TagString: Untagged
+  m_Name: Bot2
+  m_TagString: catch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1782,24 +1781,6 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.2
---- !u!114 &-3917092192680640040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565522241125702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61f9d11f6dee3394e89b1b32ff7b191a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DNALenght: 4
-  timeAlive: 0
-  timesJump: 0
-  timeWalking: 0
-  totalDist: 0
-  eyes: {fileID: 954552260}
 --- !u!1 &1578918934834248
 GameObject:
   m_ObjectHideFlags: 0
