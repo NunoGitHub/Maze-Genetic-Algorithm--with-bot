@@ -31,7 +31,7 @@ public class PopulationManager : MonoBehaviour
         //instantiate a new bot and add to list
         for (int i = 0; i < populationSize; i++)
         {
-            Vector3 startingpos = new Vector3(transform.position.x + Random.Range(-2, 2), transform.position.y, transform.position.z + Random.Range(-2, 2));
+            Vector3 startingpos = new Vector3(transform.position.x + Random.Range(-1, 1), transform.position.y, transform.position.z + Random.Range(-1, 1));
 
             GameObject b = Instantiate(botPrefab, startingpos, transform.rotation);
             b.GetComponent<Brain>().Init();
@@ -43,7 +43,7 @@ public class PopulationManager : MonoBehaviour
     GameObject Breed(GameObject parent1, GameObject parent2)
     {
 
-        Vector3 startingPos = new Vector3(transform.position.x + Random.Range(-2, 2), transform.position.y, transform.position.z + Random.Range(-2, 2));
+        Vector3 startingPos = new Vector3(transform.position.x + Random.Range(-1, 1), transform.position.y, transform.position.z + Random.Range(-1, 1));
 
         GameObject offSpring = Instantiate(botPrefab, startingPos, transform.rotation);
 
@@ -70,7 +70,7 @@ public class PopulationManager : MonoBehaviour
     void BreedNewPopulation()
     {
         // sort in descending order by timeAlive variable
-        List<GameObject> sortedList = population.OrderBy(x => x.GetComponent<Brain>().timeAlive + x.GetComponent<Brain>().timeWalking*5).ToList();
+        List<GameObject> sortedList = population.OrderBy(x => +x.GetComponent<Brain>().timesJump*-2 + x.GetComponent<Brain>().totalDist*2).ToList();
 
         population.Clear();
 

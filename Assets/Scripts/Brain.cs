@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 
@@ -6,8 +7,9 @@ using UnityStandardAssets.Characters.ThirdPerson;
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class Brain : MonoBehaviour
 {
-    public int DNALenght = 2;
+    public int DNALenght = 3;
     public float timeAlive = 0;
+    public int timesJump =0;
 
     public float timeWalking = 0;
 
@@ -20,11 +22,19 @@ public class Brain : MonoBehaviour
     public bool alive { get; set; } = true;//to stop record the timealive
     bool seeGround = true;
 
+    private Vector3 initPos;
+    public float totalDist=0;
+
     Quaternion targetRotation;
     float rotationSpeed = 5;
     float speed = 10;
 
     public GameObject eyes;
+
+
+    private void Start() {
+        initPos = transform.position;
+    }
 
     public void Init()
     {
@@ -50,25 +60,48 @@ public class Brain : MonoBehaviour
             alive = false;
             timeAlive = 0;
             timeWalking = 0;
+            distanceHit=0;
+            totalDist=0;
         }
     }
     
+    float distanceHit =0;
+    bool seeWall=false;
     private void FixedUpdate()
     {
 
 
         if (!alive) return;
 
+        // Atualizar continuamente a posição atual do bot
+        Vector3 currentPosition = transform.position;
+
+        // Calcular a distância total percorrida
+        totalDist = Vector3.Distance(initPos, currentPosition);
+
+        distanceHit =0;
         
         seeGround = false;
+        seeWall =false;
+        distanceHit=0;
         RaycastHit hit;
 
         if (Physics.Raycast(eyes.transform.position, eyes.transform.forward * 10, out hit))
         {
+            if(hit.collider.gameObject!= null){
+                distanceHit = hit.distance;
+            }
+
             if (hit.collider.gameObject.tag == "platform")
             {
                 seeGround = true;
             }
+
+            if (hit.collider.gameObject.tag == "Wall")
+            {
+                seeWall = true;
+            }
+        
         }
         Debug.DrawRay(eyes.transform.position, eyes.transform.forward * 10, Color.red);
 
@@ -78,6 +111,7 @@ public class Brain : MonoBehaviour
         float turn = 0;// right and left moviment, 1 = right, -1 = left
         float move = 0;//forward and backward movement, 1 = foward, -1 = backward
         bool crouch = false;
+        
         //get genes at position 0 to simplify the algorithm
 
         if (seeGround)
@@ -100,13 +134,14 @@ public class Brain : MonoBehaviour
             else if (dna.GetGene(0) == 3)
             {
                 m_jump = true; // jump
+                timesJump++;
             }
             else if (dna.GetGene(0) == 4)
             {
                 crouch = true; // crouch
             }
         }
-        else
+        else if(seeWall)
         {
             if (dna.GetGene(1) == 0)
             {
@@ -126,6 +161,34 @@ public class Brain : MonoBehaviour
             else if (dna.GetGene(1) == 3)
             {
                 m_jump = true; // jump
+                  timesJump++;
+            }
+            else if (dna.GetGene(1) == 4)
+            {
+                crouch = true; // crouch
+            }
+        }
+        else if(distanceHit !=0){
+
+             if (dna.GetGene(1) == 0)
+            {
+                move = 1; // move foward
+                timeWalking++;
+            }
+            else if (dna.GetGene(1) == 1)
+            {
+                turn = -1; // turn left
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y - 90, 0);
+            }
+            else if (dna.GetGene(1) == 2)
+            {
+                turn = 1; // turn right
+                targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 90, 0);
+            }
+            else if (dna.GetGene(1) == 3)
+            {
+                m_jump = true; // jump
+                  timesJump++;
             }
             else if (dna.GetGene(1) == 4)
             {
