@@ -70,7 +70,7 @@ public class PopulationManager : MonoBehaviour
     void BreedNewPopulation()
     {
         // sort in descending order by timeAlive variable
-        List<GameObject> sortedList = population.OrderBy(x => x.GetComponent<Brain>().collWall+x.GetComponent<Brain>().pointsCatch*10+x.GetComponent<Brain>().timesJump*-2 + x.GetComponent<Brain>().totalDist*5).ToList();
+        List<GameObject> sortedList = population.OrderBy(x => x.GetComponent<Brain>().catchEnemy+x.GetComponent<Brain>().collWall+x.GetComponent<Brain>().pointsCatch*10+x.GetComponent<Brain>().timesJump*-2 + x.GetComponent<Brain>().totalDist*5).ToList();
 
         population.Clear();
 
